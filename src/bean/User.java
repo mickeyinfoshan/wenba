@@ -1,6 +1,10 @@
 package bean;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class User {
 	private int id;
@@ -23,6 +27,8 @@ public class User {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}

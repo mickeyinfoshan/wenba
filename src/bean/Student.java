@@ -1,5 +1,10 @@
 package bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Student {
 	private int sid;
 	private String sname;
@@ -24,6 +29,8 @@ public class Student {
 		this.sage = sage;
 		this.signature = signature;
 	}
+	@Id
+	@GeneratedValue
 	public int getSid() {
 		return sid;
 	}

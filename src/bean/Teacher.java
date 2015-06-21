@@ -1,5 +1,10 @@
 package bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Teacher {
 	private int tid;
 	private String tname;
@@ -26,6 +31,8 @@ public class Teacher {
 
 
 
+	@Id
+	@GeneratedValue
 	public int getTid() {
 		return tid;
 	}

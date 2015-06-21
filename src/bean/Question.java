@@ -1,7 +1,12 @@
 package bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class Question {
 	private int id;
@@ -10,6 +15,8 @@ public class Question {
 	private String title;
 	private String content;
 	public Question(){}
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
@@ -35,6 +42,7 @@ public class Question {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	@ManyToOne
 	public User getUser() {
 		return user;
 	}
