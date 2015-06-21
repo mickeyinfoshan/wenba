@@ -7,9 +7,12 @@ var AnswerHistoryView = React.createClass({
 	},
 	loadDataFromServer : function() {
 		$.post('api/answer/history/',{
-			userId : localStorage['user_id']
+			user_id : localStorage['user_id']
 		},function(res){
      	  	this.setState({answers: res});
+     	  	$('[data-toggle="popover"]').popover({
+      			trigger : 'hover'
+    		});
     	}.bind(this))
     	.fail(ajaxFail);
 	},

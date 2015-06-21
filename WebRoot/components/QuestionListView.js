@@ -7,6 +7,9 @@ var QuestionListView = React.createClass({
 	loadDataFromServer: function() {
     	$.get('api/question/all/',{},function(res){
      	  	this.setState({questions: res});
+     	  	$('[data-toggle="popover"]').popover({
+      			trigger : 'hover'
+    		});
     	}.bind(this))
     	.fail(ajaxFail);
   	},

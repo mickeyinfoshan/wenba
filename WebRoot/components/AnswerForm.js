@@ -12,7 +12,7 @@ var AnswerForm = React.createClass({
     var dt = new Date();
     var time = dt.getFullYear() + "-" + (dt.getMonth()+1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
     var answerData = {
-      question_id : this.props.questionId,
+      question_id : this.props.question.id,
       content : answerContent,
       user_id : localStorage['user_id'],
       time : time

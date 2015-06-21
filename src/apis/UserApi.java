@@ -25,12 +25,12 @@ public class UserApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public int addUser(
 			@FormParam(value="account") String account,
-			@FormParam(value="passworld") String password,
+			@FormParam(value="password") String password,
 			@FormParam(value="nickname") String nickname,
 			@FormParam(value="signature") String signature
 		){
 		Session session = HibernateSessionFactory.getSession();
-		String query = "from User where account=" + account;
+		String query = "from User U where U.account='" + account + "'";
 		List<User> querySet = session.createQuery(query).list();
 		if(!querySet.isEmpty()){
 			session.close();
@@ -64,7 +64,7 @@ public class UserApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User updateUser(
 			@PathParam(value="user_id") int userId,
-			@FormParam(value="passworld") String password,
+			@FormParam(value="password") String password,
 			@FormParam(value="nickname") String nickname,
 			@FormParam(value="signature") String signature
 			){
@@ -78,5 +78,21 @@ public class UserApi {
 		trans.commit();
 		session.close();
 		return user;
+	}
+	
+	@POST
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int login(
+			@FormParam(value="account") String account,
+			@FormParam(value="password") String password){
+		Session session = HibernateSessionFactory.getSession();
+		String query = "from User U where account='" + account +"' and password='" + password +"'";
+		List<User> querySet = session.createQuery(query).list();
+		session.close();
+		if(querySet.isEmpty()){			
+			return -1;
+		}
+		return querySet.get(0).getId();
 	}
 }

@@ -6,7 +6,10 @@ var QuestionDetailView = React.createClass({
 	},
 	loadDataFromServer : function() {
 		$.get("api/question/" + this.props.question.id + "/answers/",{},function(res){
-			this.setState({answers:res});			
+			this.setState({answers:res});
+			$('[data-toggle="popover"]').popover({
+      			trigger : 'hover'
+    		});			
 		}.bind(this)).fail(ajaxFail);
 	},
 	componentDidMount: function() {
@@ -16,7 +19,8 @@ var QuestionDetailView = React.createClass({
 		var url = "api/answer/add/";
 		console.log(answerData);
 		$.post(url,answerData,function(res){
-			alert(res);
+			if(res == '200')
+				alert("回答成功");
 			this.loadDataFromServer();
 		}.bind(this))
 		.fail(ajaxFail);
@@ -28,7 +32,7 @@ var QuestionDetailView = React.createClass({
 				<QuestionDetail question={this.props.question} answers={this.state.answers} />
     		</div>
     		<div className="col-lg-4">
-    			<AnswerForm postAnswer={this.postAnswer} questionId={this.props.questionId}/>
+    			<AnswerForm postAnswer={this.postAnswer} question={this.props.question}/>
     		</div>
     	</div>
     	);

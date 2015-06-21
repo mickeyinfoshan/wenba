@@ -27,11 +27,13 @@ var RegisterModal = React.createClass({
     if(!signature){
       signatureInput.focus();return;
     }
+    var dt = new Date();
     var data = {
       account : account,
       password : password,
       nickname : nickname,
-      signature : signature
+      signature : signature,
+      time : dt.getTime()
     };
     $.post("api/user/register",data,function(res){
       if(res > 0){

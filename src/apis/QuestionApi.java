@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import dbc.HibernateSessionFactory;
 
@@ -27,7 +28,7 @@ public class QuestionApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Question[] getAllQuestions(){
 		Session session = HibernateSessionFactory.getSession();
-		List<Question> list = (List<Question>)(session.createQuery("from Question").list());
+		List<Question> list = (List<Question>)(session.createQuery("from Question q where q.user is not null").list());
 		session.close();
 		int size = list.size();
 		Question[] questions = new Question[size];
@@ -39,39 +40,26 @@ public class QuestionApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Answer[] getQuestionAnswers(@PathParam(value="questionId") 
 	String questionId){
-		Answer[] as = new Answer[3];
-		Answer a = new Answer();
-		a.setContent("这里是答案");
-		User u = new User();
-		u.setId(2);
-		u.setNickname("Mickey");
-		u.setSignature("好好学习天天向上");
-		a.setUser(u);
-		a.setId(3);
-		as[0] = a;
-		as[1] = a;
-		as[2] = a;
-		return as;
+		Session session = HibernateSessionFactory.getSession();
+		String query = "from Answer A where A.question=" + questionId;
+		List<Answer> list = (List<Answer>)(session.createQuery(query).list());
+		session.close();
+		int size = list.size();
+		Answer[] answer = new Answer[size];
+		return (Answer[])(list.toArray(answer));
 	}
 	
 	@POST
 	@Path("/history")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Question[] getQuestionsHistory(){
-		Question[] qs = new Question[5];
-		for(int i = 0; i<5; i++){
-			Question q = new Question();
-			q.setContent("abce");
-			q.setId(i);
-			q.setTitle("lalala");
-			User u = new User();
-			u.setId(2);
-			u.setNickname("Mickey");
-			u.setSignature("好好学习天天向上");
-			q.setUser(u);
-			qs[i] = q;
-		}
-		return qs;
+	public Question[] getQuestionsHistory(@FormParam(value="user_id") int userId){
+		Session session = HibernateSessionFactory.getSession();
+		String query = "from Question Q where Q.user=" + userId;
+		List<Question> list = (List<Question>)(session.createQuery(query).list());
+		session.close();
+		int size = list.size();
+		Question[] questions = new Question[size];
+		return (Question[])(list.toArray(questions));
 	}
 	@POST
 	@Path("/add")
@@ -82,10 +70,17 @@ public class QuestionApi {
 			@FormParam(value="user_id") int userId,
 			@FormParam(value="time") String time
 			){
+		Session session = HibernateSessionFactory.getSession();
+		User user = (User)session.get(User.class, userId);
 		Question q = new Question();
 		q.setTime(time);
 		q.setTitle(title);
 		q.setContent(des);
+		q.setUser(user);
+		Transaction trans = session.beginTransaction();
+		session.save(q);
+		trans.commit();
+		session.close();
 		return 200;
 	}
 	
