@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import bean.User;
-
 import dbc.HibernateSessionFactory;
 
 @Path("user/")

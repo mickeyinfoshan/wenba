@@ -14,11 +14,10 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import dbc.HibernateSessionFactory;
-
 import bean.Answer;
 import bean.Question;
 import bean.User;
+import dbc.HibernateSessionFactory;
 
 @Path("/question")
 public class QuestionApi {
