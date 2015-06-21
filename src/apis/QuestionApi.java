@@ -1,5 +1,7 @@
 package apis;
 
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -8,6 +10,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.hibernate.Session;
+
+import dbc.HibernateSessionFactory;
 
 import bean.Answer;
 import bean.Question;
@@ -20,20 +26,12 @@ public class QuestionApi {
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Question[] getAllQuestions(){
-		Question q = new Question();
-		q.setContent("abce");
-		q.setId(2);
-		q.setTitle("lalala");
-		User u = new User();
-		u.setId(2);
-		u.setNickname("Mickey");
-		u.setSignature("好好学习天天向上");
-		q.setUser(u);
-		Question[] qs;
-		qs = new Question[2];
-		qs[0] = q;
-		qs[1] = q;
-		return qs;
+		Session session = HibernateSessionFactory.getSession();
+		List<Question> list = (List<Question>)(session.createQuery("from Question").list());
+		session.close();
+		int size = list.size();
+		Question[] questions = new Question[size];
+		return (Question[])(list.toArray(questions));
 	}
 	
 	@GET

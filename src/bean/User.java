@@ -2,9 +2,11 @@ package bean;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@Table(name="wenbaUser")
 @XmlRootElement
 public class User {
 	private int id;

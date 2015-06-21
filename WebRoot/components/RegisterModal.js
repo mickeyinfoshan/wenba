@@ -1,9 +1,49 @@
 var RegisterModal = React.createClass({
   toLogin:function(){
       React.render(
-    <LoginModal />,
-    document.getElementById("myModalDialog")
-  );
+        <LoginModal />,
+        document.getElementById("myModalDialog")
+      );
+  },
+  register : function() {
+    var accountInput = React.findDOMNode(this.refs.account);
+    var passwordInput = React.findDOMNode(this.refs.password);
+    var nicknameInput = React.findDOMNode(this.refs.nickname);
+    var signatureInput = React.findDOMNode(this.refs.signature);
+    var account = accountInput.value;
+    var password = passwordInput.value;
+    var nickname = nicknameInput.value;
+    var signature = signatureInput.value;
+    if(!account){
+      accountInput.focus();
+      return;
+    }
+    if(!password){
+      passwordInput.focus();return;
+    }
+    if(!nickname){
+      nicknameInput.focus();return;
+    }
+    if(!signature){
+      signatureInput.focus();return;
+    }
+    var data = {
+      account : account,
+      password : password,
+      nickname : nickname,
+      signature : signature
+    };
+    $.post("api/user/register",data,function(res){
+      if(res > 0){
+        localStorage['user_id'] = res;
+        alert("注册成功");
+        $('#myModal').modal('hide');
+      }else{
+        alert("该用户名已注册，请重新输入");
+        accountInput.focus();
+      }
+    }.bind(this))
+    .fail(ajaxFail);
   },
 render : function(){return (<div className="modal-content">
       <div className="modal-header">
@@ -15,22 +55,33 @@ render : function(){return (<div className="modal-content">
   <div className="form-group">
     <label htmlFor="inputUsername" className="col-sm-2 control-label">用户名</label>
     <div className="col-sm-10">
-      <input type="text" className="form-control" id="inputUsername" placeholder="用户名" />
+      <input type="text" className="form-control" id="inputUsername" placeholder="用户名" ref="account" />
     </div>
   </div>
   <div className="form-group">
     <label htmlFor="inputPassword" className="col-sm-2 control-label">密码</label>
     <div className="col-sm-10">
-      <input type="password" className="form-control" id="inputPassword" placeholder="密码" />
+      <input type="password" className="form-control" id="inputPassword" placeholder="密码" ref="password" />
     </div>
   </div>
-  
+  <div className="form-group">
+    <label htmlFor="inputPassword" className="col-sm-2 control-label">昵称</label>
+    <div className="col-sm-10">
+      <input type="text" className="form-control" id="inputNickname" placeholder="昵称" ref="nickname" />
+    </div>
+  </div>
+  <div className="form-group">
+    <label htmlFor="inputPassword" className="col-sm-2 control-label">个性签名</label>
+    <div className="col-sm-10">
+      <input type="text" className="form-control" id="inputSignature" placeholder="个性签名" ref="signature" />
+    </div>
+  </div>
 </div>
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" className="btn btn-info" onClick={this.toLogin}>去登录</button>
-        <button type="button" className="btn btn-primary">注册</button>
+        <button type="button" className="btn btn-primary" onClick={this.register}>注册</button>
       </div>
     </div>)
 }
