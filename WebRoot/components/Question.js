@@ -6,6 +6,10 @@ var Question = React.createClass({
 	render : function() {
 		var avatarIndex = Math.round(Math.random()*4);
 		var avatar = "./img/avatar/" + avatarIndex + ".jpg";
+		var userIcon = null;
+		if(this.props.question.user.userType == '1'){
+			userIcon = (<span className="glyphicon glyphicon-star" style={{color:'gold'}}></span>);
+		}
 		return (
 			<div className="media question item" onClick={this.toQuestionDetail}>
  				 <div className="media-left">
@@ -14,7 +18,8 @@ var Question = React.createClass({
   				 <div className="media-body">
   				 	<span className="pull-right">{this.props.question.time}</span>
     				<h4 className="media-heading">{this.props.question.title}</h4>
-    				<span className="user" data-toggle="popover" data-content={this.props.question.user.signature} data-placement="bottom">{this.props.question.user.nickname}</span><br/>
+    				<span className="user" data-toggle="popover" data-content={this.props.question.user.signature} data-placement="bottom">
+    				{userIcon}{this.props.question.user.nickname}</span><br/>
     					{this.props.question.content}
  				 </div>
 			</div>

@@ -24,6 +24,7 @@
 	<mapping class="bean.Answer" />
 	<mapping class="bean.Question" />
 	<mapping class="bean.User" />
+	<mapping class="bean.AnswerLike" />
 
 </session-factory>
 

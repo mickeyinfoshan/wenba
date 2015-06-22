@@ -14,6 +14,7 @@ public class User {
 	private String account;
 	private String password;
 	private String signature;
+	private int userType = 0;
 	public User(){}
 	public User(int id,String nickname, String account,String password,String signature){
 		this.setId(id);
@@ -55,5 +56,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public int getUserType() {
+		return userType;
+	}
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+	
 	
 }

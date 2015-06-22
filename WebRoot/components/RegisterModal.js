@@ -14,6 +14,7 @@ var RegisterModal = React.createClass({
     var password = passwordInput.value;
     var nickname = nicknameInput.value;
     var signature = signatureInput.value;
+    var userType = React.findDOMNode(this.refs.userType).value;
     if(!account){
       accountInput.focus();
       return;
@@ -33,6 +34,7 @@ var RegisterModal = React.createClass({
       password : password,
       nickname : nickname,
       signature : signature,
+      userType : userType,
       time : dt.getTime()
     };
     $.post("api/user/register",data,function(res){
@@ -76,6 +78,15 @@ render : function(){return (<div className="modal-content">
     <label htmlFor="inputPassword" className="col-sm-2 control-label">个性签名</label>
     <div className="col-sm-10">
       <input type="text" className="form-control" id="inputSignature" placeholder="个性签名" ref="signature" />
+    </div>
+  </div>
+  <div className="form-group">
+    <label htmlFor="inputUserType" className="col-sm-2 control-label">用户类型</label>
+    <div className="col-sm-10">
+      <select className="form-control" ref="userType" id="inputUserType">
+        <option value="0">学生</option>
+        <option value="1">老师</option>
+      </select>
     </div>
   </div>
 </div>

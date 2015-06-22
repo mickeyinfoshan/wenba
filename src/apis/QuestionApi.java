@@ -14,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.common.collect.Lists;
+
 import bean.Answer;
 import bean.Question;
 import bean.User;

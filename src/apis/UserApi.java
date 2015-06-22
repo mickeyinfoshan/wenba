@@ -26,7 +26,8 @@ public class UserApi {
 			@FormParam(value="account") String account,
 			@FormParam(value="password") String password,
 			@FormParam(value="nickname") String nickname,
-			@FormParam(value="signature") String signature
+			@FormParam(value="signature") String signature,
+			@FormParam(value="userType") int userType
 		){
 		Session session = HibernateSessionFactory.getSession();
 		String query = "from User U where U.account='" + account + "'";
@@ -40,6 +41,7 @@ public class UserApi {
 		user.setPassword(password);
 		user.setNickname(nickname);
 		user.setSignature(signature);
+		user.setUserType(userType);
 		Transaction trans = session.beginTransaction();
 		session.save(user);
 		trans.commit();
