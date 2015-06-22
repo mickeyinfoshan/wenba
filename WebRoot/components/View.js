@@ -16,7 +16,7 @@ var View = React.createClass({
 		var hash = window.location.hash.substring(1);
 		if(!hash){
 			return (
-				<QuestionListView questions={qList} toQuestionDetail={this.toQuestionDetail} />
+				<QuestionListView toQuestionDetail={this.toQuestionDetail} />
 			);
 		}
 		if(!isNaN(hash)){

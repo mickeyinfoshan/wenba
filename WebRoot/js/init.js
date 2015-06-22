@@ -21,7 +21,6 @@ function refresh() {
 };
 
 function checkLogin() {
-    return true;
 	if(!localStorage['user_id']){
 		React.render(<LoginModal />,document.getElementById('myModalDialog'));
 		$('#myModal').modal();
